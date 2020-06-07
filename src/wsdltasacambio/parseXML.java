@@ -5,7 +5,8 @@
  */
 
 /*
-Autor:  Adoni Sanchez
+* Autor:  ASz 2020
+*  https://github.com/cerbero666/TCBanguatJava
 */
 
 package wsdltasacambio;
@@ -24,35 +25,29 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-/**
- *
- * @author Administrador
- */
 public class parseXML {
 
     public double getTasa(String xml) throws ParserConfigurationException, SAXException, IOException{
-        double tasa =0;
-        
-DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-InputSource is = new InputSource();
-is.setCharacterStream(new StringReader(xml));
+            double tasa =0;
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(xml));
+            Document doc = db.parse(is);
+            Element e = doc.getDocumentElement();
+            NodeList nodeList = doc.getElementsByTagName("VarDolar");
 
-Document doc = db.parse(is);
-        
-        Element e = doc.getDocumentElement();
-        NodeList nodeList = doc.getElementsByTagName("VarDolar");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                NodeList nodelist = element.getElementsByTagName("referencia");
-                Element element1 = (Element) nodelist.item(0);
-                NodeList fstNm = element1.getChildNodes();
-               // System.out.print("TasaCambio : " + (fstNm.item(0)).getNodeValue());
-                tasa = Double.parseDouble(fstNm.item(0).getNodeValue());
-               }
-        }
-        return tasa;
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    NodeList nodelist = element.getElementsByTagName("referencia");
+                    Element element1 = (Element) nodelist.item(0);
+                    NodeList fstNm = element1.getChildNodes();
+                // System.out.print("TasaCambio : " + (fstNm.item(0)).getNodeValue());
+                    tasa = Double.parseDouble(fstNm.item(0).getNodeValue());
+                }
+            }
+            return tasa;
     }
     
 }
